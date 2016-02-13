@@ -1,6 +1,7 @@
-var httpProxy = require('http-proxy');
-var http      = require('http');
-var url       = require('url');
+var httpProxy = require('http-proxy'),
+  connect = require('connect'),
+  http      = require('http'),
+  url       = require('url');
 
 // Website to redirect
 SOURCE        = 'localhost.dev:5000';
@@ -8,6 +9,8 @@ TARGET        = 'http://www.decathlon.fr';
 PARSED_TARGET = url.parse(TARGET);
 PORT          = 5000;
 
+// Basic Connect App
+var app = connect();
 // Initialize reverse proxy
 var proxy = httpProxy.createProxyServer({ secure: false });
 
@@ -24,11 +27,18 @@ proxy.on('proxyRes', function (proxyRes, req, res) {
 });
 
 // Handle http requests
-var server = http.createServer(function(req, res) {
-
+app.use(function(req, res, next) {
   req.headers['host']   = PARSED_TARGET.host;
   req.headers['origin'] = TARGET;
+  next();
+});
 
+var transforms = {
+  'text/html': require('./app/parsers').html
+};
+require('./app/tool/transform')(transforms)
+
+app.use(function(req, res) {
   proxy.web(req, res, { target: TARGET });
 });
 
@@ -44,6 +54,5 @@ proxy.on('error', function (err, req, res) {
   res.end('We are sorry, but we cannot serve this request.');
 });
 
-console.log('Listen on port ' + PORT);
-
-server.listen(PORT);
+http.createServer(app).listen(PORT);
+console.log('Server started at port ' + PORT);
