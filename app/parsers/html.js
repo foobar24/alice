@@ -1,4 +1,4 @@
-var replaceStream = require('replaceStream');
+var replaceStream = require('replacestream');
 var pipe = require('multipipe');
 
 var rLink = replaceStream('//www.decathlon.fr', '//127.0.0.1:5000'),

@@ -34,9 +34,11 @@ app.use(function(req, res, next) {
 });
 
 var transforms = {
-  'text/html': require('./app/parsers').html
+  'text/html': require('./app/parsers').html,
+  'application/javascript': require('./app/parsers').javascript
 };
-require('./app/tool/transform')(transforms)
+
+app.use(require('./app/tool/transform')(transforms));
 
 app.use(function(req, res) {
   proxy.web(req, res, { target: TARGET });
