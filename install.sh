@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+
+# Download node bin
+wget https://nodejs.org/dist/v5.6.0/node-v5.6.0-linux-x64.tar.xz
+tar xvf node-v5.6.0-linux-x64.tar.xz
+rm node-v5.6.0-linux-x64.tar.xz
+mv node-v5.6.0-linux-x64 node
+
+# Install dependencies
+node/bin/npm install
+
+# Install pm2
+node/bin/npm install pm2
+
+# Install varnish
+sudo apt-get install -y varnish
+
+# Set varnish to listen on port 80
+sudo sed -i 's/\:6081/\:80/' /etc/default/varnish
+
+# Set node app as varnish backend
+sudo sed -i 's/8080/3000/' /etc/varnish/default.vcl
+
+echo "Update the 'config.json' file with your config"
+echo "Next, use ./bin/start to start server"
+echo "Nothing else."
