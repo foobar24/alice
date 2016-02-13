@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/NInfolab/website-mirror-by-proxy/issues"
   },
-  "homepage": "https://github.com/NInfolab/website-mirror-by-proxy#readme"
+  "homepage": "https://github.com/NInfolab/website-mirror-by-proxy#readme",
+  "dependencies": {
+    "node-http-proxy": "^0.2.3"
+  }
 }
