@@ -1,4 +1,5 @@
 {
   "source": "localhost:5000",
-  "target": "http://www.decathlon.fr"
+  "target": "http://www.decathlon.fr",
+  "port": 3000
 }
