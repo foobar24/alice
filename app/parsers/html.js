@@ -1,9 +1,11 @@
 var replaceStream = require('replacestream');
 var pipe = require('multipipe');
 
-var rLink = replaceStream('//www.decathlon.fr', '//127.0.0.1:5000'),
-  rScript = replaceStream(/<script\b[^>]*>([\s\S]*?)<\/script>/g, function(match) {
-    return match.split('www.decathlon.fr').join('127.0.0.1:5000');
-  });
-
-module.exports = pipe(rLink, rScript);
+module.exports = function() {
+  return [
+    replaceStream('//rkn.gov.ru', '//127.0.0.1:5000'),
+    replaceStream(/<script\b[^>]*>([\s\S]*?)<\/script>/g, function(match) {
+      return match.split('rkn.gov.ru').join('127.0.0.1:5000');
+    })
+  ];
+};
