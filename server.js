@@ -1,23 +1,26 @@
 var httpProxy = require('http-proxy'),
   connect = require('connect'),
-  http      = require('http'),
-  url       = require('url');
+  http = require('http'),
+  url = require('url'),
+  config = require('./config');
 
 // Website to redirect
-SOURCE        = 'localhost:5000';
-TARGET        = 'http://www.thairath.co.th/';
+SOURCE = config.source;
+TARGET = config.target;
 PARSED_TARGET = url.parse(TARGET);
-PORT          = 5000;
+PORT = config.port;
 
 // Basic Connect App
 var app = connect();
 // Initialize reverse proxy
-var proxy = httpProxy.createProxyServer({ secure: false });
+var proxy = httpProxy.createProxyServer({
+  secure: false
+});
 
 // Handle proxy response
-proxy.on('proxyRes', function (proxyRes, req, res) {
+proxy.on('proxyRes', function(proxyRes, req, res) {
 
-  if(proxyRes.statusCode >= 301 && proxyRes.statusCode <= 302){
+  if (proxyRes.statusCode >= 301 && proxyRes.statusCode <= 302) {
 
     var location = proxyRes.headers['location'];
     var replaced = location.replace(PARSED_TARGET.host, SOURCE);
@@ -28,7 +31,7 @@ proxy.on('proxyRes', function (proxyRes, req, res) {
 
 // Handle http requests
 app.use(function(req, res, next) {
-  req.headers['host']   = PARSED_TARGET.host;
+  req.headers['host'] = PARSED_TARGET.host;
   req.headers['origin'] = TARGET;
   next();
 });
@@ -41,11 +44,13 @@ var transforms = {
 app.use(require('./app/tool/transform')(transforms));
 
 app.use(function(req, res) {
-  proxy.web(req, res, { target: TARGET });
+  proxy.web(req, res, {
+    target: TARGET
+  });
 });
 
 // Handle errors
-proxy.on('error', function (err, req, res) {
+proxy.on('error', function(err, req, res) {
 
   // @todo: logs
 

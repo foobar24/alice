@@ -1,6 +1,10 @@
-var replaceStream = require('replacestream');
-var pipe = require('multipipe');
+var replaceStream = require('replacestream'),
+  pipe = require('multipipe'),
+  url = require('url'),
+  config = require('../../config');
 
 module.exports = function() {
-  return replaceStream('www.decathlon.fr', '127.0.0.1:5000');
+  target = url.parse(config.target);
+
+  return replaceStream(target.hostname, config.source);
 };
