@@ -18,6 +18,12 @@
   },
   "homepage": "https://github.com/NInfolab/website-mirror-by-proxy#readme",
   "dependencies": {
-    "node-http-proxy": "^0.2.3"
+    "connect": "^3.4.1",
+    "http-proxy": "^1.13.1",
+    "http-server": "^0.8.5",
+    "lodash": "^4.3.0",
+    "multipipe": "^0.3.0",
+    "replacestream": "^4.0.0",
+    "require-dir": "^0.3.0"
   }
 }
