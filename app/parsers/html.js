@@ -1,11 +1,15 @@
-var replaceStream = require('replacestream');
-var pipe = require('multipipe');
+var replaceStream = require('replacestream'),
+  pipe = require('multipipe'),
+  url = require('url'),
+  config = require('../../config');
 
 module.exports = function() {
+  target = url.parse(config.target);
+
   return [
-    replaceStream('//rkn.gov.ru', '//127.0.0.1:5000'),
+    replaceStream('//' + target.hostname, '//' + config.source),
     replaceStream(/<script\b[^>]*>([\s\S]*?)<\/script>/g, function(match) {
-      return match.split('rkn.gov.ru').join('127.0.0.1:5000');
+      return match.split(target.hostname).join(config.source);
     })
   ];
 };
