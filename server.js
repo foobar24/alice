@@ -4,8 +4,8 @@ var httpProxy = require('http-proxy'),
   url       = require('url');
 
 // Website to redirect
-SOURCE        = 'localhost.dev:5000';
-TARGET        = 'http://www.decathlon.fr';
+SOURCE        = 'localhost:5000';
+TARGET        = 'http://www.thairath.co.th/';
 PARSED_TARGET = url.parse(TARGET);
 PORT          = 5000;
 
