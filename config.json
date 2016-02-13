@@ -1,0 +1,5 @@
+{
+  "source": "Your domain name here. Ex: mysite.tld",
+  "target": "The website you want to proxy. Ex : http://en.rsf.org",
+  "port": 3000
+}
