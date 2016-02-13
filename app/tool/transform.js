@@ -17,8 +17,9 @@ module.exports = function(transformers) {
         charset = getCharset(contentType);
 
         // force charset to utf8
-        res.setHeader('Content-Type', res.getHeader('Content-Type').replace(charset, ('utf8')));
-
+        if(res.getHeader('Content-Type')) {
+          res.setHeader('Content-Type', res.getHeader('Content-Type').replace(charset, ('utf8')));
+        }
 
         // Sniff out the content-type header.
         var processors = [];
