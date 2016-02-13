@@ -22,7 +22,6 @@
     "connect": "^3.4.1",
     "http-proxy": "^1.13.1",
     "http-server": "^0.8.5",
-    "iconv": "^2.1.11",
     "iconv-lite": "^0.4.13",
     "lodash": "^4.3.0",
     "multipipe": "^0.3.0",
