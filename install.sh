@@ -20,11 +20,11 @@ sudo apt-get install -y varnish
 # Set varnish to listen on port 80
 sudo sed -i 's/\:6081/\:80/' /etc/default/varnish
 
-# Restart varnish
-sudo service varnish restart
-
 # Set node app as varnish backend
 sudo sed -i 's/8080/3000/' /etc/varnish/default.vcl
+
+# Restart varnish
+sudo service varnish restart
 
 echo "Update the 'config.json' file with your config"
 echo "Next, use ./bin/start to start server"
