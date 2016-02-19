@@ -14,11 +14,19 @@ node/bin/npm install
 # Install pm2
 node/bin/npm install pm2
 
+PM=apt-get
+LF=/etc/default/varnish
+
+if [ -f /etc/redhat-release ]; then
+    PM=yum
+    LF=/etc/varnish/varnish.params
+fi
+
 # Install varnish
-sudo apt-get install -y varnish
+sudo $PM install -y varnish
 
 # Set varnish to listen on port 80
-sudo sed -i 's/\:6081/\:80/' /etc/default/varnish
+sudo sed -i 's/\:6081/\:80/' $LF
 
 # Set node app as varnish backend
 sudo sed -i 's/8080/3000/' /etc/varnish/default.vcl
