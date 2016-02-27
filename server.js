@@ -11,12 +11,7 @@ if(process.argv[2]){
 } else {
   config = require('./config');
 }
-
-// Website to redirect
-SOURCE = config.source;
-TARGET = config.target;
-PARSED_TARGET = url.parse(TARGET);
-PORT = config.port;
+config.parsed_target = url.parse(config.target);
 
 // Basic Connect App
 var app = connect();
@@ -31,7 +26,7 @@ proxy.on('proxyRes', function(proxyRes, req, res) {
   if (proxyRes.statusCode >= 301 && proxyRes.statusCode <= 302) {
 
     var location = proxyRes.headers['location'];
-    var replaced = location.replace(PARSED_TARGET.host, SOURCE);
+    var replaced = location.replace(config.parsed_target.host, config.source);
 
     proxyRes.headers['location'] = replaced;
   }
@@ -39,8 +34,8 @@ proxy.on('proxyRes', function(proxyRes, req, res) {
 
 // Handle http requests
 app.use(function(req, res, next) {
-  req.headers['host'] = PARSED_TARGET.host;
-  req.headers['origin'] = TARGET;
+  req.headers['host'] = config.parsed_target.host;
+  req.headers['origin'] = config.target;
   next();
 });
 
@@ -53,7 +48,7 @@ app.use(require('./app/tool/transform')(transforms));
 
 app.use(function(req, res) {
   proxy.web(req, res, {
-    target: TARGET
+    target: config.target
   });
 });
 
@@ -69,5 +64,5 @@ proxy.on('error', function(err, req, res) {
   res.end('We are sorry, but we cannot serve this request.');
 });
 
-http.createServer(app).listen(PORT);
-console.log('Server started at port ' + PORT);
+http.createServer(app).listen(config.port);
+console.log('Server started at port ' + config.port);
