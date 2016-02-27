@@ -5,7 +5,7 @@ var iconv = require('iconv-lite');
 var getCharset = require('charset');
 
 
-module.exports = function(transformers) {
+module.exports = function(config, transformers) {
   return function(req, res, next) {
     (function() {
       var pr, charset;
@@ -33,7 +33,7 @@ module.exports = function(transformers) {
                 delete headers['content-length'];
               }
 
-              processors.push(v());
+              processors.push(v(config));
             }
           });
         }

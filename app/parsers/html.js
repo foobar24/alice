@@ -1,15 +1,11 @@
 var replaceStream = require('replacestream'),
-  pipe = require('multipipe'),
-  url = require('url'),
-  config = require('../../' + (process.argv[2] || 'config'));
+  pipe = require('multipipe');
 
-module.exports = function() {
-  target = url.parse(config.target);
-
+module.exports = function(config) {
   return [
-    replaceStream('//' + target.hostname, '//' + config.source),
+    replaceStream('//' + config.parsed_target.hostname, '//' + config.source),
     replaceStream(/<script\b[^>]*>([\s\S]*?)<\/script>/g, function(match) {
-      return match.split(target.hostname).join(config.source);
+      return match.split(config.parsed_target.hostname).join(config.source);
     })
   ];
 };
