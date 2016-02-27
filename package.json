@@ -26,6 +26,7 @@
     "lodash": "^4.3.0",
     "multipipe": "^0.3.0",
     "replacestream": "^4.0.0",
-    "require-dir": "^0.3.0"
+    "require-dir": "^0.3.0",
+    "winston": "^2.2.0"
   }
 }
