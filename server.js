@@ -44,7 +44,7 @@ var transforms = {
   'application/javascript': require('./app/parsers').javascript
 };
 
-app.use(require('./app/tool/transform')(transforms));
+app.use(require('./app/tool/transform')(config, transforms));
 
 app.use(function(req, res) {
   proxy.web(req, res, {
