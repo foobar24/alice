@@ -2,7 +2,15 @@ var httpProxy = require('http-proxy'),
   connect = require('connect'),
   http = require('http'),
   url = require('url'),
-  config = require('./' + (process.argv[2] || './config'));
+  path = require('path'),
+  config;
+
+// Get config
+if(process.argv[2]){
+  config = require(path.resolve(process.argv[2]));
+} else {
+  config = require('./config');
+}
 
 // Website to redirect
 SOURCE = config.source;
