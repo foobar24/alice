@@ -1,9 +1,10 @@
 var httpProxy = require('http-proxy'),
   connect = require('connect'),
-  logger = require('winston'),
   http = require('http'),
   url = require('url'),
   path = require('path'),
+  fs = require('fs'),
+  morgan = require('morgan'),
   config;
 
 // Get config
@@ -14,9 +15,6 @@ if(process.argv[2]){
 }
 config.parsed_target = url.parse(config.target);
 config.log_path = path.resolve(config.log_path || './app.log');
-
-// Configure logger
-logger.add(logger.transports.File, { filename: config.log_path });
 
 // Basic Connect App
 var app = connect();
@@ -37,6 +35,10 @@ proxy.on('proxyRes', function(proxyRes, req, res) {
     proxyRes.headers['location'] = replaced;
   }
 });
+
+// Use morgan as logger
+var accessLogStream = fs.createWriteStream(__dirname + '/app.log', {flags: 'a'});
+app.use(morgan('combined', {stream: accessLogStream}));
 
 // Handle http requests
 app.use(function(req, res, next) {
@@ -61,9 +63,6 @@ app.use(function(req, res) {
 // Handle errors
 proxy.on('error', function(err, req, res) {
 
-  // @todo: Improve log line
-  logger.error(err);
-
   res.writeHead(500, {
     'Content-Type': 'text/plain'
   });
@@ -72,4 +71,4 @@ proxy.on('error', function(err, req, res) {
 });
 
 http.createServer(app).listen(config.port);
-logger.info('Server started at port ' + config.port);
+console.log('Server started at port ' + config.port);
