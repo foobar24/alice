@@ -27,6 +27,7 @@
     "morgan": "^1.7.0",
     "multipipe": "^0.3.0",
     "replacestream": "^4.0.0",
-    "require-dir": "^0.3.0"
+    "require-dir": "^0.3.0",
+    "through": "^2.3.8"
   }
 }

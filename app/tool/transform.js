@@ -1,111 +1,85 @@
 var _ = require('lodash'),
-  pipe = require('multipipe');
-
-var iconv = require('iconv-lite');
-var getCharset = require('charset');
-
+  pipe = require('multipipe'),
+  through = require('through'),
+  iconv = require('iconv-lite'),
+  getCharset = require('charset'),
+  zlib = require('zlib');
 
 module.exports = function(config, transformers) {
   return function(req, res, next) {
     (function() {
-      var pr, charset;
-      var gunzip = require('zlib').createGunzip();
+      var gunzip = zlib.createGunzip();
 
       var _writeHead = res.writeHead;
       res.writeHead = function(code, headers) {
         var contentType = this.getHeader('content-type');
-        charset = getCharset(contentType);
 
-        // force charset to utf8
-        if(res.getHeader('Content-Type')) {
-          res.setHeader('Content-Type', res.getHeader('Content-Type').replace(charset, ('utf8')));
-        }
-
-        // Sniff out the content-type header.
+        // Setup processor pipeline
         var processors = [];
         if (typeof contentType != 'undefined') {
           _.forEach(transformers, function(v, k) {
             if (contentType.indexOf(k) === 0) {
-              // Strip off the content length since it will change.
-              res.removeHeader('Content-Length');
-
-              if (headers) {
-                delete headers['content-length'];
-              }
-
               processors.push(v(config));
             }
           });
         }
 
-        if (processors.length) {
-          var contentEncoding = this.getHeader('content-encoding');
-          /* Sniff out the content-type header.
-           * If the response is Gziped, we're have to gunzip content before and ungzip content after.
-           */
-          if (contentEncoding && contentEncoding.toLowerCase() == 'gzip') {
-            res.isGziped = true;
-
-            // Strip off the content encoding since it will change.
-            res.removeHeader('Content-Encoding');
-
-            if (headers) {
-              delete headers['content-encoding'];
-            }
-          }
-
-          pr = pipe(_.flatten(processors));
-
-          pr.on('data', function(buf) {
-            _write.call(res, buf);
-          });
-
-          pr.on('end', function() {
-            _end.call(res);
-          });
+        if (!processors.length) { // nothing to do
+          _writeHead.apply(res, arguments);
+          return;
         }
 
-        var _write = res.write;
-        res.write = function(data, encoding) {
-          if (pr) {
-            if (res.isGziped) {
-              gunzip.write(data);
-            } else {
-              pr.write(data, encoding);
-            }
-          } else {
-            _write.apply(res, arguments);
-          }
-        };
+        // force charset to utf8
+        var charset = getCharset(contentType);
+        if (res.getHeader('Content-Type') && charset) {
+          res.setHeader('Content-Type', res.getHeader('Content-Type').replace(charset, ('utf8')));
+        }
 
-        gunzip.on('data', function(buf) {
-          var _buf = buf;
+        // Strip off the content length since it will change.
+        res.removeHeader('Content-Length');
+        if (headers)
+          delete headers['content-length'];
+
+        // Force content type to utf8
+        processors.unshift(through(function write(data) {
+          if (!charset)
+            charset = getCharset(res.headers, data);
+
           if (charset && charset !== 'utf8') {
-            _buf = iconv.encode(iconv.decode(buf, charset), 'utf8');
+            data = iconv.encode(iconv.decode(data, charset), 'utf8');
+            data = new Buffer(data.toString().replace(charset, 'utf8'));
           }
-          if (pr)
-            pr.write(_buf);
-          else
-            _write.call(res, _buf);
+          this.emit('data', data);
+        }));
+
+        // Gunzip response if Gziped
+        var contentEncoding = this.getHeader('content-encoding');
+        if (contentEncoding && contentEncoding.toLowerCase() == 'gzip') {
+          processors.unshift(gunzip);
+
+          // Strip off the content encoding since it will change.
+          res.removeHeader('Content-Encoding');
+          if (headers)
+            delete headers['content-encoding'];
+        }
+
+        var pr = pipe(_.flatten(processors));
+
+        var _write = res.write;
+        pr.on('data', function(buf) {
+          _write.call(res, buf);
         });
+        res.write = function(data, encoding) {
+          pr.write(data, encoding);
+        };
 
         var _end = res.end;
-        res.end = function(data, encoding) {
-          if (res.isGziped) {
-            gunzip.end(data);
-          } else if (pr) {
-            pr.end(data, encoding);
-          } else {
-            _end.call(res);
-          }
-        };
-
-        gunzip.on('end', function(data) {
-          if (pr)
-            pr.end(data);
-          else
-            _end.call(res);
+        pr.on('end', function() {
+          _end.call(res);
         });
+        res.end = function(data, encoding) {
+          pr.end(data, encoding);
+        };
 
         _writeHead.apply(res, arguments);
       };
