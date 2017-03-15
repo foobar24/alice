@@ -3,9 +3,10 @@ var _ = require('lodash'),
   through = require('through'),
   iconv = require('iconv-lite'),
   getCharset = require('charset'),
-  zlib = require('zlib');
+  zlib = require('zlib'),
+  config = require('../config');
 
-module.exports = function(config, transformers) {
+module.exports = function(transformers) {
   return function(req, res, next) {
     (function() {
       var gunzip = zlib.createGunzip();
@@ -19,7 +20,7 @@ module.exports = function(config, transformers) {
         if (typeof contentType != 'undefined') {
           _.forEach(transformers, function(v, k) {
             if (contentType.indexOf(k) === 0) {
-              processors.push(v(config));
+              processors.push(v());
             }
           });
         }

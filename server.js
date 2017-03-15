@@ -5,16 +5,7 @@ var httpProxy = require('http-proxy'),
   path = require('path'),
   fs = require('fs'),
   morgan = require('morgan'),
-  config;
-
-// Get config
-if(process.argv[2]){
-  config = require(path.resolve(process.argv[2]));
-} else {
-  config = require('./config');
-}
-config.parsed_target = url.parse(config.target);
-config.log_path = path.resolve(config.log_path || './app.log');
+  config = require('./app/config');
 
 // Basic Connect App
 var app = connect();
@@ -26,12 +17,15 @@ var proxy = httpProxy.createProxyServer({
 
 // Handle proxy response
 proxy.on('proxyRes', function(proxyRes, req, res) {
-
   if (proxyRes.statusCode >= 301 && proxyRes.statusCode <= 302) {
+    var replacer = [ config.parsed_source.hostname ]
+    if (config.parsed_source.port) {
+      replacer.push(':');
+      replacer.push(config.parsed_source.port);
+    }
 
-    var location = proxyRes.headers['location'];
-    var replaced = location.replace(config.parsed_target.host, config.source);
-
+    var location                 = proxyRes.headers['location'];
+    var replaced                 = location.replace(config.parsed_target.host, replacer.join(''));
     proxyRes.headers['location'] = replaced;
   }
 });
@@ -52,7 +46,7 @@ var transforms = {
   'application/javascript': require('./app/parsers').javascript
 };
 
-app.use(require('./app/tool/transform')(config, transforms));
+app.use(require('./app/tool/transform')(transforms));
 
 app.use(function(req, res) {
   proxy.web(req, res, {
