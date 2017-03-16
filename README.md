@@ -37,7 +37,7 @@ cd website-mirror-by-proxy
 If you want to restart application, use :
 
 ```sh
-PATH="$PATH:`pwd`/node/bin" ./node_modules/.bin/pm2 restart server
+./bin/restart
 ```
 
 ### From source

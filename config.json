@@ -1,6 +1,6 @@
 {
-  "source": "Your domain name here. Ex: mysite.tld",
-  "target": "The website you want to proxy. Ex : http://en.rsf.org",
+  "source": "Full source domain uri Ex: http://mysite.tld",
+  "target": "Full target domain uri Ex : https://en.rsf.org",
   "port": 3000,
   "log_path": "app.log",
   "hostnames_to_replace": {
