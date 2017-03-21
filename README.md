@@ -2,25 +2,7 @@
 
 ## Installation
 
-### With DEB package
-
-A .deb package is available for all Debian like based distributions.
-
-```sh
-# As root
-echo 'deb [trusted=yes] https://apt.fury.io/wmbp/ /' > /etc/apt/sources.list.d/wmbp.list
-apt-get update
-sudo apt-get install website-mirror-by-proxy
-# Edit conf in `/etc/website-mirror-by-proxy/config.json`
-vi /etc/website-mirror-by-proxy/config.json
-# Then restart server
-/etc/init.d/website-mirror-by-proxy restart
-```
-
-### With `install.sh`
-
-Clone the git repository from Github.
-The script will install varnish on top of Website Mirror by Proxy, and will listen on port 80. We recommend to install the server on a clean machine.
+### Using `install.sh`
 
 ```sh
 # Clone the git repository from Github.
@@ -29,7 +11,11 @@ cd website-mirror-by-proxy
 # Execute the `install.sh` script
 # It will install dependencies, varnish and pm2
 ./install.sh
-# Edit config.json file
+```
+
+Edit `config.json` file according to your preferences
+
+```sh
 # Then start server
 ./bin/start
 ```
