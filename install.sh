@@ -1,12 +1,11 @@
 #!/bin/bash
 
 set -e
-
 # Download node bin
-wget https://nodejs.org/dist/v5.6.0/node-v5.6.0-linux-x64.tar.xz
-tar xvf node-v5.6.0-linux-x64.tar.xz
-rm node-v5.6.0-linux-x64.tar.xz
-mv node-v5.6.0-linux-x64 node
+wget https://nodejs.org/dist/v6.10.0/node-v6.10.0-linux-x64.tar.xz
+tar xvf node-v6.10.0-linux-x64.tar.xz
+rm node-v6.10.0-linux-x64.tar.xz
+mv node-v6.10.0-linux-x64 node
 
 # Install dependencies
 node/bin/npm install
