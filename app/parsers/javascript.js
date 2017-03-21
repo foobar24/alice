@@ -1,10 +1,10 @@
-var replaceStream = require('replacestream'),
-  pipe = require('multipipe'),
-  config = require('../config');
+const replaceStream = require('replacestream')
+const pipe          = require('multipipe')
+const config        = require('../config')
 
 module.exports = function() {
-  var regexp   = new RegExp('(https?\:)?(\/{2})?' + config.parsed_target.hostname, 'gi');
-  var replacer = [ config.parsed_source.protocol, '//', config.parsed_source.hostname ];
+  let regexp   = new RegExp(`(https?\:)?(\/{2})?${config.parsed_target.hostname}`, 'gi')
+  let replacer = [config.parsed_source.protocol, '//', config.parsed_source.hostname]
 
-  return replaceStream(regexp, replacer);
-};
+  return replaceStream(regexp, replacer)
+}

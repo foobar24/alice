@@ -1,6 +1,6 @@
 {
-  "source": "Full source domain uri Ex: http://mysite.tld",
-  "target": "Full target domain uri Ex : https://en.rsf.org",
+  "source": "http://localhost:3000",
+  "target": "https://rsf.org/",
   "port": 3000,
   "log_path": "app.log",
   "hostnames_to_replace": {
