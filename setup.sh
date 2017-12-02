@@ -15,7 +15,7 @@ echo 'Alice install script'
 # Get target mirror
 if [ -z "$1" ]; then
   while true; do
-    read -p 'Which website do you want to mirror? ' </dev/tty
+    read -p 'Which website do you want to mirror? ' TARGET </dev/tty
 
     if  [[ $TARGET == http* ]] ; then
       break
@@ -29,7 +29,7 @@ fi
 
 # Get domain
 if [ -z "$2" ]; then
-  read -p 'What is your domain? ' </dev/tty
+  read -p 'What is your domain? ' HOSTNAME </dev/tty
   HOSTNAME=$(echo "$HOSTNAME" | sed 's/http[s]*:\/\///g')
 else
   HOSTNAME=$2
@@ -37,7 +37,7 @@ fi
 
 # Get user email
 if [ -z "$3" ]; then
-  read -p 'What is your email (for lets encrypt certificate)? ' </dev/tty
+  read -p 'What is your email (for lets encrypt certificate)? ' EMAIL </dev/tty
 else
   EMAIL=$3
 fi
