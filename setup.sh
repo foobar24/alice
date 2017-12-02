@@ -51,6 +51,7 @@ sudo mkdir -p $LOG_DIR
 
 # Git
 if ! type "git" > /dev/null; then
+  sudo apt-get update
   sudo apt-get -y install git
 fi
 
