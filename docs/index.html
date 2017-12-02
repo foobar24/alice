@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>Alice documentation</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -253,7 +253,7 @@
                     <a href="#technologies" class="toc-h2 toc-link" data-title="Technologies">Technologies</a>
                   </li>
                   <li>
-                    <a href="#todo" class="toc-h2 toc-link" data-title="Todo">Todo</a>
+                    <a href="#to-do" class="toc-h2 toc-link" data-title="To do">To do</a>
                   </li>
               </ul>
           </li>
@@ -290,7 +290,7 @@ The first version of Alice was developed during an event at La Cantine Numériqu
 <!-- <aside class="notice">
 You must replace <code>meowmeowmeow</code> with your personal API key.
 </aside> -->
-<h2 id='deployment'>Deployment</h2><pre class="highlight shell"><code>TODO: curl the script
+<h2 id='deployment'>Deployment</h2><pre class="highlight shell"><code>sh -c <span class="s2">"</span><span class="k">$(</span>curl -fsSL https://raw.github.com/NInfolab/alice/master/setup.sh<span class="k">)</span><span class="s2">"</span>
 </code></pre>
 <blockquote>
 <p>The above script will ask you some questions to finalize installation</p>
@@ -315,11 +315,21 @@ Letsencrypt ask for an email for two reasons: to generate a SSL and for the rene
 <blockquote>
 <p>Configuration file is set there:</p>
 </blockquote>
-<pre class="highlight shell"><code>/etc/alice/setup.sh
+<pre class="highlight shell"><code><span class="nv">ALICE_PORT</span><span class="o">=</span>3000
+<span class="nv">LOG_DIR</span><span class="o">=</span>/var/log/alice
+<span class="nv">CONF_DIR</span><span class="o">=</span>/etc/alice
+<span class="nv">SRC_DIR</span><span class="o">=</span>/usr/share/alice
+<span class="nv">SYSTEND_DIR</span><span class="o">=</span>/etc/systemd/system
 </code></pre>
-<p>A configuration file is available to set a few configuration:</p>
+<p>Configuration is available in <code>setup.sh</code>. Base configuration is currently working and is meant to allow a quick installation.</p>
 
-<p>TODO: add available conf</p>
+<ul>
+<li>ALICE_PORT: port on which the proxy will be installed (different from the web server)</li>
+<li>LOG_DIR: directory in which logs from alice will be send</li>
+<li>CONF_DIR: directory in which Alice&#39;s configuration file will be installed</li>
+<li>SRC_DIR: directory in which Alice will be placed</li>
+<li>SYSTEND_DIR: directory where systemd is installed</li>
+</ul>
 <h2 id='service-management'>Service management</h2>
 <blockquote>
 <p>See service status:</p>
@@ -363,12 +373,17 @@ Letsencrypt ask for an email for two reasons: to generate a SSL and for the rene
 <p>Here are the technologies Alice is using:</p>
 
 <ul>
-<li><a href="https://caddyserver.com/">Caddy</a> : it is the base web server. It is light and support http, https and http2.</li>
-<li><a href="https://letsencrypt.org/">LetsEncrypt</a>: it is a free, automated, and open Certificate Authority. It allow Alice to use https.</li>
-<li>TODO: other technos</li>
+<li><a href="https://caddyserver.com/" target="_blank">Caddy</a> : it is the base web server. It is light and support http, https and http2.</li>
+<li><a href="https://letsencrypt.org/" target="_blank">LetsEncrypt</a>: it is a free, automated, and open Certificate Authority. It allow Alice to use https.</li>
+<li><a href="https://www.npmjs.com/package/http-proxy" target="_blank">http-proxy</a>: it is a proxy library.</li>
 </ul>
-<h2 id='todo'>Todo</h2>
-<p>TODO</p>
+<h2 id='to-do'>To do</h2>
+<p>We&#39;d like to improve this project. Heres what we&#39;d like to do (or what you can do ;) ):</p>
+
+<ul>
+<li>add mirror script: use the same Alice service to deliver another mirror on a different domain.</li>
+<li>TODO</li>
+</ul>
 
       </div>
       <div class="dark-box">
