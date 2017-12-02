@@ -222,6 +222,9 @@
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
           </li>
           <li>
+            <a href="#technologies" class="toc-h1 toc-link" data-title="Technologies">Technologies</a>
+          </li>
+          <li>
             <a href="#installation" class="toc-h1 toc-link" data-title="Installation">Installation</a>
               <ul class="toc-list-h2">
                   <li>
@@ -250,9 +253,6 @@
             <a href="#annexe" class="toc-h1 toc-link" data-title="Annexe">Annexe</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#technologies" class="toc-h2 toc-link" data-title="Technologies">Technologies</a>
-                  </li>
-                  <li>
                     <a href="#to-do" class="toc-h2 toc-link" data-title="To do">To do</a>
                   </li>
               </ul>
@@ -269,11 +269,19 @@
 <p>Alice is a server-side web proxy designed to host a mirror of any website. Whereas redirect-when-blocked requires the source/origin website to be modified, website-mirror-by-proxy runs separately and does not need any modification of the source/origin website.
 The Wall Street Journal beautifully illustrated our approach with one inaccuracy. The person inside the country experiencing online censorship does not need any special software to access ban sites. Any regular browser will be able to access the dynamic mirrors. </p>
 
-<p>The Alice Project was born in 2015 as part of #CollateralFreedom, a movement launched by Reporters Without Borders (RSF) for fight against censorship. Her goal? Make easier to deploy proxy for bypass cybercensorship.
+<p>The Alice Project was born in 2015 as part of #CollateralFreedom, a movement launched by Reporters Without Borders (RSF) for fight against censorship. Its goal? Make easier to deploy proxy for bypass cybercensorship.
 Why this project is named &quot;Alice&quot;? Do you remember Alice in Wonderland? The story by Lewis Carrol? Let us introduce you Alice on the other side of the mirror!
-The first version of Alice was developed during an event at La Cantine Numérique Brest (France). The second edition in 2017 add some great news/developments like :
+The first version of Alice was developed during an event at La Cantine Numérique Brest (France). The third edition in 2017 add some great news/developments like :
 - HTTPS
 - Auto deployment via bash script</p>
+<h1 id='technologies'>Technologies</h1>
+<p>Here are the technologies Alice is using:</p>
+
+<ul>
+<li><a href="https://caddyserver.com/" target="_blank">Caddy</a> : it is the base web server. It is light and support http, https and http2.</li>
+<li><a href="https://letsencrypt.org/" target="_blank">LetsEncrypt</a>: it is a free, automated, and open Certificate Authority. It allow Alice to use https.</li>
+<li><a href="https://www.npmjs.com/package/http-proxy" target="_blank">http-proxy</a>: it is a proxy library.</li>
+</ul>
 <h1 id='installation'>Installation</h1><h2 id='prerequisites'>Prerequisites</h2>
 <blockquote>
 <p>add curl to debian:</p>
@@ -290,7 +298,9 @@ The first version of Alice was developed during an event at La Cantine Numériqu
 <!-- <aside class="notice">
 You must replace <code>meowmeowmeow</code> with your personal API key.
 </aside> -->
-<h2 id='deployment'>Deployment</h2><pre class="highlight shell"><code>sh -c <span class="s2">"</span><span class="k">$(</span>curl -fsSL https://raw.github.com/NInfolab/alice/master/setup.sh<span class="k">)</span><span class="s2">"</span>
+<h2 id='deployment'>Deployment</h2>
+<!-- sh -c "$(curl -fsSL https://raw.github.com/NInfolab/alice/master/setup.sh)" -->
+<pre class="highlight shell"><code>curl -fsSL https://raw.github.com/NInfolab/alice/master/setup.sh | bash
 </code></pre>
 <blockquote>
 <p>The above script will ask you some questions to finalize installation</p>
@@ -369,20 +379,11 @@ Letsencrypt ask for an email for two reasons: to generate a SSL and for the rene
 /var/log/caddy.log
 </code></pre>
 <p>Two log files are available: one for Alice itself, one for Caddy. We have a Caddy log file because it is our base web server.</p>
-<h1 id='annexe'>Annexe</h1><h2 id='technologies'>Technologies</h2>
-<p>Here are the technologies Alice is using:</p>
-
-<ul>
-<li><a href="https://caddyserver.com/" target="_blank">Caddy</a> : it is the base web server. It is light and support http, https and http2.</li>
-<li><a href="https://letsencrypt.org/" target="_blank">LetsEncrypt</a>: it is a free, automated, and open Certificate Authority. It allow Alice to use https.</li>
-<li><a href="https://www.npmjs.com/package/http-proxy" target="_blank">http-proxy</a>: it is a proxy library.</li>
-</ul>
-<h2 id='to-do'>To do</h2>
+<h1 id='annexe'>Annexe</h1><h2 id='to-do'>To do</h2>
 <p>We&#39;d like to improve this project. Heres what we&#39;d like to do (or what you can do ;) ):</p>
 
 <ul>
 <li>add mirror script: use the same Alice service to deliver another mirror on a different domain.</li>
-<li>TODO</li>
 </ul>
 
       </div>

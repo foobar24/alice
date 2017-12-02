@@ -18,11 +18,19 @@ search: true
 Alice is a server-side web proxy designed to host a mirror of any website. Whereas redirect-when-blocked requires the source/origin website to be modified, website-mirror-by-proxy runs separately and does not need any modification of the source/origin website.
 The Wall Street Journal beautifully illustrated our approach with one inaccuracy. The person inside the country experiencing online censorship does not need any special software to access ban sites. Any regular browser will be able to access the dynamic mirrors. 
 
-The Alice Project was born in 2015 as part of #CollateralFreedom, a movement launched by Reporters Without Borders (RSF) for fight against censorship. Her goal? Make easier to deploy proxy for bypass cybercensorship.
+The Alice Project was born in 2015 as part of #CollateralFreedom, a movement launched by Reporters Without Borders (RSF) for fight against censorship. Its goal? Make easier to deploy proxy for bypass cybercensorship.
 Why this project is named "Alice"? Do you remember Alice in Wonderland? The story by Lewis Carrol? Let us introduce you Alice on the other side of the mirror!
-The first version of Alice was developed during an event at La Cantine Numérique Brest (France). The second edition in 2017 add some great news/developments like :
+The first version of Alice was developed during an event at La Cantine Numérique Brest (France). The third edition in 2017 add some great news/developments like :
 - HTTPS
 - Auto deployment via bash script
+
+# Technologies
+
+Here are the technologies Alice is using:
+
+* <a href="https://caddyserver.com/" target="_blank">Caddy</a> : it is the base web server. It is light and support http, https and http2.
+* <a href="https://letsencrypt.org/" target="_blank">LetsEncrypt</a>: it is a free, automated, and open Certificate Authority. It allow Alice to use https.
+* <a href="https://www.npmjs.com/package/http-proxy" target="_blank">http-proxy</a>: it is a proxy library.
 
 # Installation
 
@@ -46,8 +54,10 @@ You must replace <code>meowmeowmeow</code> with your personal API key.
 
 ## Deployment
 
+<!-- sh -c "$(curl -fsSL https://raw.github.com/NInfolab/alice/master/setup.sh)" -->
+
 ```bash
-sh -c "$(curl -fsSL https://raw.github.com/NInfolab/alice/master/setup.sh)"
+curl -fsSL https://raw.github.com/NInfolab/alice/master/setup.sh | bash
 ```
 
 > The above script will ask you some questions to finalize installation
@@ -133,17 +143,8 @@ Two log files are available: one for Alice itself, one for Caddy. We have a Cadd
 
 # Annexe
 
-## Technologies
-
-Here are the technologies Alice is using:
-
-* <a href="https://caddyserver.com/" target="_blank">Caddy</a> : it is the base web server. It is light and support http, https and http2.
-* <a href="https://letsencrypt.org/" target="_blank">LetsEncrypt</a>: it is a free, automated, and open Certificate Authority. It allow Alice to use https.
-* <a href="https://www.npmjs.com/package/http-proxy" target="_blank">http-proxy</a>: it is a proxy library.
-
 ## To do
 
 We'd like to improve this project. Heres what we'd like to do (or what you can do ;) ):
 
 * add mirror script: use the same Alice service to deliver another mirror on a different domain.
-* TODO
