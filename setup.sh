@@ -5,7 +5,7 @@ ALICE_PORT=3000
 LOG_DIR=/var/log/alice
 CONF_DIR=/etc/alice
 SRC_DIR=/usr/share/alice
-SYSTEND_DIR=/etc/systemd/system
+SYSTEMD_DIR=/etc/systemd/system
 
 echo 'Alice install script'
 
@@ -74,11 +74,6 @@ else
   sudo sh -c "cd $SRC_DIR && git pull && npm install"
 fi
 
-# PM2
-if [ ! -d "$SRC_DIR/node_modules/pm2" ]; then
-  sudo sh -c "cd $SRC_DIR && npm install pm2"
-fi
-
 ################################################################################
 # CONFIGURATION
 ################################################################################
@@ -105,17 +100,15 @@ $HOSTNAME {
 }
 EOM"
 
-# Generate systemd service
-sudo sh -c "cat > ${SYSTEND_DIR}/alice.service <<- EOM
+# Generate caddy systemd service
+sudo sh -c "cat > ${SYSTEMD_DIR}/alice-caddy.service <<- EOM
 [Unit]
-Description=Alice service
-Documentation=https://github.com/NInfolab/alice
-After=network.target
+Description=Alice caddy service
+PartOf=alice.service
+After=alice.service
 
 [Service]
 User=root
-ExecStartPre=$SRC_DIR/node_modules/pm2/bin/pm2 start $SRC_DIR/server.js -- ${CONF_DIR}/alice.json --name alice
-ExecStopPost=$SRC_DIR/node_modules/pm2/bin/pm2 stop alice
 ExecStart=/usr/local/bin/caddy -conf $CONF_DIR/caddy
 WorkingDirectory=$SRC_DIR
 Restart=on-failure
@@ -123,11 +116,46 @@ LimitNOFILE=8192
 StartLimitInterval=600
 
 [Install]
+WantedBy=alice.service
+EOM"
+
+# Generate node systemd service
+sudo sh -c "cat > ${SYSTEMD_DIR}/alice-node.service <<- EOM
+[Unit]
+Description=Alice node service
+PartOf=alice.service
+After=alice.service
+
+[Service]
+User=root
+ExecStart=/usr/bin/node $SRC_DIR/server.js ${CONF_DIR}/alice.json
+WorkingDirectory=$SRC_DIR
+Restart=on-failure
+LimitNOFILE=8192
+StartLimitInterval=600
+
+[Install]
+WantedBy=alice.service
+EOM"
+
+# Generate alice systemd service
+sudo sh -c "cat > ${SYSTEMD_DIR}/alice.service <<- EOM
+[Unit]
+Description=Alice service
+Documentation=https://github.com/NInfolab/alice
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/true
+RemainAfterExit=yes
+
+[Install]
 WantedBy=multi-user.target
 EOM"
 
 # Start Alice
-sudo systemctl enable alice
+sudo systemctl enable alice alice-caddy alice-node
 sudo systemctl daemon-reload
 sudo systemctl start alice
 
