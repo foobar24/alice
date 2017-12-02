@@ -58,8 +58,8 @@ parse_args() {
   # vars should be declared here, with sane defaults if applicable.
 
   # Source directory & target branch.
-  # deploy_directory=build
-  deploy_directory='../docs' 
+  deploy_directory=build
+  # deploy_directory='../docs' 
   deploy_branch=gh-pages
   # deploy_branch=master
 
@@ -214,5 +214,5 @@ elif [[ $1 = --push-only ]]; then
 else
   run_build
   main "$@"
-  cp -r build/ ../docs/
+  cp -r build/* ../docs/
 fi
