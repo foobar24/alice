@@ -1,5 +1,5 @@
 ---
-title: API Reference
+title: Alice documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - bash
@@ -47,7 +47,7 @@ You must replace <code>meowmeowmeow</code> with your personal API key.
 ## Deployment
 
 ```bash
-TODO: curl the script
+sh -c "$(curl -fsSL https://raw.github.com/NInfolab/alice/master/setup.sh)"
 ```
 
 > The above script will ask you some questions to finalize installation
@@ -70,12 +70,20 @@ Letsencrypt ask for an email for two reasons: to generate a SSL and for the rene
 > Configuration file is set there:
 
 ```bash
-/etc/alice/setup.sh
+ALICE_PORT=3000
+LOG_DIR=/var/log/alice
+CONF_DIR=/etc/alice
+SRC_DIR=/usr/share/alice
+SYSTEND_DIR=/etc/systemd/system
 ```
 
-A configuration file is available to set a few configuration:
+Configuration is available in `setup.sh`. Base configuration is currently working and is meant to allow a quick installation.
 
-TODO: add available conf
+* ALICE_PORT: port on which the proxy will be installed (different from the web server)
+* LOG_DIR: directory in which logs from alice will be send
+* CONF_DIR: directory in which Alice's configuration file will be installed
+* SRC_DIR: directory in which Alice will be placed
+* SYSTEND_DIR: directory where systemd is installed
 
 ## Service management
 
@@ -129,10 +137,13 @@ Two log files are available: one for Alice itself, one for Caddy. We have a Cadd
 
 Here are the technologies Alice is using:
 
-* <a href="https://caddyserver.com/">Caddy</a> : it is the base web server. It is light and support http, https and http2.
-* <a href="https://letsencrypt.org/">LetsEncrypt</a>: it is a free, automated, and open Certificate Authority. It allow Alice to use https.
-* TODO: other technos
+* <a href="https://caddyserver.com/" target="_blank">Caddy</a> : it is the base web server. It is light and support http, https and http2.
+* <a href="https://letsencrypt.org/" target="_blank">LetsEncrypt</a>: it is a free, automated, and open Certificate Authority. It allow Alice to use https.
+* <a href="https://www.npmjs.com/package/http-proxy" target="_blank">http-proxy</a>: it is a proxy library.
 
-## Todo
+## To do
 
-TODO
+We'd like to improve this project. Heres what we'd like to do (or what you can do ;) ):
+
+* add mirror script: use the same Alice service to deliver another mirror on a different domain.
+* TODO
