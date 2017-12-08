@@ -269,30 +269,33 @@
 <p>Alice is a server-side web proxy designed to host a mirror of any website. Whereas redirect-when-blocked requires the source/origin website to be modified, website-mirror-by-proxy runs separately and does not need any modification of the source/origin website.
 The Wall Street Journal beautifully illustrated our approach with one inaccuracy. The person inside the country experiencing online censorship does not need any special software to access ban sites. Any regular browser will be able to access the dynamic mirrors. </p>
 
-<p>The Alice Project was born in 2015 as part of #CollateralFreedom, a movement launched by Reporters Without Borders (RSF) for fight against censorship. Its goal? Make easier to deploy proxy for bypass cybercensorship.
-Why this project is named &quot;Alice&quot;? Do you remember Alice in Wonderland? The story by Lewis Carrol? Let us introduce you Alice on the other side of the mirror!
-The first version of Alice was developed during an event at La Cantine Numérique Brest (France). The third edition in 2017 add some great news/developments like :
-- HTTPS
-- Auto deployment via bash script</p>
+<p>The Alice Project was born in 2015 as part of #CollateralFreedom, a campaign launched by Reporters Without Borders (RSF) for fight against censorship. Its goal? Make easier to deploy proxy for bypass cybercensorship.
+Why this project is named &quot;Alice&quot;? Do you know the famous novel : Alice in Wonderland by Lewis Carrol? Let us introduce you to Alice on the other side of the mirror!
+The first version of Alice was developed during an event at La Cantine Numérique Brest (France) in 2016. The third edition in 2017 added some great features like :
+  - Auto deployment via bash script of a web proxy
+    - Including Cache
+    - Including HTTPS Certificates</p>
+
 <h1 id='technologies'>Technologies</h1>
 <p>Here are the technologies Alice is using:</p>
 
 <ul>
-<li><a href="https://caddyserver.com/" target="_blank">Caddy</a> : it is the base web server. It is light and support http, https and http2.</li>
-<li><a href="https://letsencrypt.org/" target="_blank">LetsEncrypt</a>: it is a free, automated, and open Certificate Authority. It allow Alice to use https.</li>
+<li><a href="https://caddyserver.com/" target="_blank">Caddy</a> : it is the base web server. It is light and supports http, https and http2.</li>
+<li><a href="https://letsencrypt.org/" target="_blank">LetsEncrypt</a>: it is a free, automated, and open Certificate Authority. It allows Alice to use https.</li>
 <li><a href="https://www.npmjs.com/package/http-proxy" target="_blank">http-proxy</a>: it is a proxy library.</li>
 </ul>
 <h1 id='installation'>Installation</h1><h2 id='prerequisites'>Prerequisites</h2>
 <blockquote>
-<p>add curl to debian:</p>
+<p>add curl to your debian box:</p>
 </blockquote>
 <pre class="highlight shell"><code>sudo apt-get install curl
 </code></pre>
-<p>You are going to need:</p>
+<p>What is needed ?</p>
 
 <ul>
-<li>a Linux Debian 8</li>
-<li>curl</li>
+<li>One domain Name previously bought on Registrar Platform like : OVH, GANDI etc. </li>
+<li>OS : Linux Debian > 8</li>
+<li>Debian Package : curl</li>
 </ul>
 
 <!-- <aside class="notice">
@@ -319,7 +322,7 @@ You must replace <code>meowmeowmeow</code> with your personal API key.
 </ul>
 
 <aside class="warning">
-Letsencrypt ask for an email for two reasons: to generate a SSL and for the renewal mail (as a letsencrypt certificate last for 90 days. learn more here: <a href="https://letsencrypt.org/docs/faq/#what-is-the-lifetime-for-lets-encrypt-certificates-for-how-long-are-they-valid" target="_blank">https://letsencrypt.org/docs/faq/#what-is-the-lifetime-for-lets-encrypt-certificates-for-how-long-are-they-valid</a> )
+Letsencrypt asks for an email for two reasons: to generate a SSL and for the renewal mail (Keep in mind one letsencrypt certificate lasts for 90 days. learn more here: <a href="https://letsencrypt.org/docs/faq/#what-is-the-lifetime-for-lets-encrypt-certificates-for-how-long-are-they-valid" target="_blank">https://letsencrypt.org/docs/faq/#what-is-the-lifetime-for-lets-encrypt-certificates-for-how-long-are-they-valid</a> )
 </aside>
 <h1 id='administration'>Administration</h1><h2 id='configuration'>Configuration</h2>
 <blockquote>
@@ -335,14 +338,14 @@ Letsencrypt ask for an email for two reasons: to generate a SSL and for the rene
 
 <ul>
 <li>ALICE_PORT: port on which the proxy will be installed (different from the web server)</li>
-<li>LOG_DIR: directory in which logs from alice will be send</li>
+<li>LOG_DIR: directory in which logs from alice will be sent</li>
 <li>CONF_DIR: directory in which Alice&#39;s configuration file will be installed</li>
 <li>SRC_DIR: directory in which Alice will be placed</li>
-<li>SYSTEND_DIR: directory where systemd is installed</li>
+<li>SYSTEMD_DIR: directory where systemd is installed</li>
 </ul>
 <h2 id='service-management'>Service management</h2>
 <blockquote>
-<p>See service status:</p>
+<p>Check service status:</p>
 </blockquote>
 <pre class="highlight shell"><code>service alice status
 </code></pre>
@@ -361,25 +364,25 @@ Letsencrypt ask for an email for two reasons: to generate a SSL and for the rene
 </blockquote>
 <pre class="highlight shell"><code>service alice restart
 </code></pre>
-<p>A few commands could be usefull to you: service commands. You might need them if your need to check/start/stop/restart Alice.</p>
+<p>A few commands could be usefull to you: service commands. You might need them if you need to check/start/stop/restart Alice.</p>
 
 <ul>
-<li>Status allow you to check Alice status (obviously)</li>
+<li>Status allows you to check Alice status (obviously)</li>
 <li>Start will start Alice (Oh?)</li>
 <li>Stop will... Oh you really need explication for that?</li>
 <li>Restart: stop then start again</li>
 </ul>
 
-<p>However if Alice stop working, you might want to know why it stoped.</p>
+<p>However if Alice stops working, you might want to know why it stopped.</p>
 <h2 id='logs'>Logs</h2>
 <blockquote>
-<p>There are 2 logs files. One for Alice, the other for Caddy. They are set there:</p>
+<p>There are 2 logs files. One for Alice, the other for Caddy. They are set as described below:</p>
 </blockquote>
 <pre class="highlight shell"><code>/var/log/alice.log
 /var/log/caddy.log
 </code></pre>
 <p>Two log files are available: one for Alice itself, one for Caddy. We have a Caddy log file because it is our base web server.</p>
-<h1 id='annexe'>Annexe</h1><h2 id='to-do'>To do</h2>
+<h1 id='annexe'>Annex</h1><h2 id='to-do'>To do</h2>
 <p>We&#39;d like to improve this project. Heres what we&#39;d like to do (or what you can do ;) ):</p>
 
 <ul>
