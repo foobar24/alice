@@ -267,17 +267,17 @@
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
 <p>Alice is a server-side web proxy designed to host a mirror of any website. Whereas redirect-when-blocked requires the source/origin website to be modified, website-mirror-by-proxy runs separately and does not need any modification of the source/origin website.
-The Wall Street Journal beautifully illustrated our approach with one inaccuracy. The person inside the country experiencing online censorship does not need any special software to access ban sites. Any regular browser will be able to access the dynamic mirrors. </p>
+Thanks to the Alice Project, a user inside one area experiencing online censorship does not need any special software to access banned sites. Any regular browser will be able to access the dynamic mirrors. </p>
 
-<p>The Alice Project was born in 2015 as part of #CollateralFreedom, a campaign launched by Reporters Without Borders (RSF) for fight against censorship. Its goal? Make easier to deploy proxy for bypass cybercensorship.
-Why this project is named &quot;Alice&quot;? Do you know the famous novel : Alice in Wonderland by Lewis Carrol? Let us introduce you to Alice on the other side of the mirror!
-The first version of Alice was developed during an event at La Cantine Numérique Brest (France) in 2016. The third edition in 2017 added some great features like :
-  - Auto deployment via bash script of a web proxy
+<p>The Alice Project was born in 2015 as part of #CollateralFreedom, a campaign launched by Reporters Without Borders (RSF) to circumvent censorship. Its goal? Make it easier to deploy proxy and bypass cybercensorship.
+Why is this project called &quot;Alice&quot;? Do you know the famous novel : Alice in Wonderland by Lewis Carrol? Let's introduce you to Alice on the other side of the mirror!
+The first version of Alice was developed during an event at La Cantine Numérique Brest (France) in 2016. The second edition in 2017 added some great features like :
+  - Auto-deployment via bash script of a web proxy
     - Including Cache
     - Including HTTPS Certificates</p>
 
 <h1 id='technologies'>Technologies</h1>
-<p>Here are the technologies Alice is using:</p>
+<p>Here are the technologies Alice uses:</p>
 
 <ul>
 <li><a href="https://caddyserver.com/" target="_blank">Caddy</a> : it is the base web server. It is light and supports http, https and http2.</li>
@@ -312,17 +312,17 @@ You must replace <code>meowmeowmeow</code> with your personal API key.
 <p>We made a script to automatically deploy the proxy. You&#39;ll need to answer a few questions:</p>
 
 <ul>
-<li>Which website do you want to mirror? (<em>http://a-site.com</em>)</li>
-<li>On which domain will you deploy this mirror? (<em>tchoutchou.org</em>)
+<li>Which website do you want to mirror? (<em>https://mysite.com</em>)</li>
+<li>On which domain will you deploy this mirror? (<em>https://mirrormysite.com</em>)
 
 <ul>
-<li>It also works with subdomains. (<em>subdomain.domain.net</em>)</li>
+<li>It also works with subdomains. (<em>subdomain.mirrormysite.com</em>)</li>
 </ul></li>
 <li>What is your e-mail address?</li>
 </ul>
 
 <aside class="warning">
-Letsencrypt asks for an email for two reasons: to generate a SSL and for the renewal mail (Keep in mind one letsencrypt certificate lasts for 90 days. learn more here: <a href="https://letsencrypt.org/docs/faq/#what-is-the-lifetime-for-lets-encrypt-certificates-for-how-long-are-they-valid" target="_blank">https://letsencrypt.org/docs/faq/#what-is-the-lifetime-for-lets-encrypt-certificates-for-how-long-are-they-valid</a> )
+Letsencrypt asks for an email for two reasons: for generating a SSL certificate and for the renewal warning of the certificate via mail (Keep in mind one letsencrypt certificate lasts for 90 days. learn more here: <a href="https://letsencrypt.org/docs/faq/#what-is-the-lifetime-for-lets-encrypt-certificates-for-how-long-are-they-valid" target="_blank">https://letsencrypt.org/docs/faq/#what-is-the-lifetime-for-lets-encrypt-certificates-for-how-long-are-they-valid</a> )
 </aside>
 <h1 id='administration'>Administration</h1><h2 id='configuration'>Configuration</h2>
 <blockquote>
@@ -332,13 +332,13 @@ Letsencrypt asks for an email for two reasons: to generate a SSL and for the ren
 <span class="nv">LOG_DIR</span><span class="o">=</span>/var/log/alice
 <span class="nv">CONF_DIR</span><span class="o">=</span>/etc/alice
 <span class="nv">SRC_DIR</span><span class="o">=</span>/usr/share/alice
-<span class="nv">SYSTEND_DIR</span><span class="o">=</span>/etc/systemd/system
+<span class="nv">SYSTEMD_DIR</span><span class="o">=</span>/etc/systemd/system
 </code></pre>
 <p>Configuration is available in <code>setup.sh</code>. Base configuration is currently working and is meant to allow a quick installation.</p>
 
 <ul>
 <li>ALICE_PORT: port on which the proxy will be installed (different from the web server)</li>
-<li>LOG_DIR: directory in which logs from alice will be sent</li>
+<li>LOG_DIR: directory in which logs from Alice will be sent</li>
 <li>CONF_DIR: directory in which Alice&#39;s configuration file will be installed</li>
 <li>SRC_DIR: directory in which Alice will be placed</li>
 <li>SYSTEMD_DIR: directory where systemd is installed</li>
@@ -369,7 +369,7 @@ Letsencrypt asks for an email for two reasons: to generate a SSL and for the ren
 <ul>
 <li>Status allows you to check Alice status (obviously)</li>
 <li>Start will start Alice (Oh?)</li>
-<li>Stop will... Oh you really need explication for that?</li>
+<li>Stop will... do you really need explication for that?</li>
 <li>Restart: stop then start again</li>
 </ul>
 
@@ -386,7 +386,7 @@ Letsencrypt asks for an email for two reasons: to generate a SSL and for the ren
 <p>We&#39;d like to improve this project. Heres what we&#39;d like to do (or what you can do ;) ):</p>
 
 <ul>
-<li>add mirror script: use the same Alice service to deliver another mirror on a different domain.</li>
+<li>Add mirror script: use the same Alice service to deliver another mirror on a different domain.</li>
 </ul>
 
       </div>
