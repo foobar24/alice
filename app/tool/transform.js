@@ -31,6 +31,13 @@ module.exports = function(transformers) {
 
         // force charset to utf8
         let charset = getCharset(contentType)
+
+        // Do nothing unless the content-type is text. (Fix #21)
+        if (!contentType.match("^text/*")) {
+          _writeHead.apply(res, arguments)
+          return
+        }
+
         if (res.getHeader('Content-Type') && charset)
           res.setHeader('Content-Type', res.getHeader('Content-Type').replace(charset, ('utf8')))
 
