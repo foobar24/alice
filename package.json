@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "run(){ ./node_modules/.bin/eslint . --ext .js -c .eslintrc.json $1 || true; }; run",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
@@ -30,6 +31,7 @@
     "through": "^2.3.8"
   },
   "devDependencies": {
+    "eslint": "^4.18.2",
     "nodemon": "^1.11.0"
   }
 }
