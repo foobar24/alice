@@ -28,7 +28,7 @@ proxy.on('proxyRes', function(proxyRes) {
 });
 
 // Use morgan as logger
-const accessLogStream = fs.createWriteStream(__dirname + '/app.log', { flags: 'a' });
+const accessLogStream = fs.createWriteStream(config.log_path, { flags: 'a' });
 app.use(morgan('combined', { stream: accessLogStream }));
 
 // Handle http requests
