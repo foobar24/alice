@@ -4,4 +4,4 @@ set -e
 
 export PATH="$PATH:`pwd`/node/bin"
 
-node_modules/.bin/pm2 start server.js --name server
+node_modules/.bin/pm2 start index.js --name server
