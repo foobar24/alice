@@ -96,6 +96,7 @@ $HOSTNAME {
   tls $EMAIL
   proxy / 127.0.0.1:$ALICE_PORT {
     transparent
+    header_upstream X-Forwarded-Ssl on
   }
 }
 EOM"
