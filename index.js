@@ -40,8 +40,8 @@ app.use(function(req, res, next) {
 });
 
 const transforms = {
-  'text/html':              require('./app/parsers').html,
-  'application/javascript': require('./app/parsers').javascript
+  'text/html':              require('./app/parsers/html'),
+  'application/javascript': require('./app/parsers/javascript')
 };
 
 app.use(require('./app/tool/transform')(transforms));
