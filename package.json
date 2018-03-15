@@ -1,23 +1,23 @@
 {
-  "name": "wmbpbn",
+  "name": "alice",
   "version": "0.0.1",
-  "description": "",
-  "main": "server.js",
+  "description": "Node.js web proxy",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NInfolab/website-mirror-by-proxy.git"
+    "url": "git+https://github.com/NInfolab/alice.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/NInfolab/website-mirror-by-proxy/issues"
+    "url": "https://github.com/NInfolab/alice/issues"
   },
-  "homepage": "https://github.com/NInfolab/website-mirror-by-proxy#readme",
+  "homepage": "https://github.com/NInfolab/alice#readme",
   "dependencies": {
     "charset": "^1.0.0",
     "connect": "^3.4.1",
