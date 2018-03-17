@@ -1,30 +1,12 @@
-# Website Mirror by Proxy
+# Alice proxy
+
+[![Build Status](https://travis-ci.org/NInfolab/alice.svg?branch=master)](https://travis-ci.org/NInfolab/alice)
+
+## Documentation
+
+[Docs on github pages](http://ninfolab.github.io/alice/)
 
 ## Installation
-
-### Using `install.sh`
-
-```sh
-# Clone the git repository from Github.
-git clone https://github.com/NInfolab/website-mirror-by-proxy.git
-cd website-mirror-by-proxy
-# Execute the `install.sh` script
-# It will install dependencies, varnish and pm2
-./install.sh
-```
-
-Edit `config.json` file according to your preferences
-
-```sh
-# Then start server
-./bin/start
-```
-
-If you want to restart application, use :
-
-```sh
-./bin/restart
-```
 
 ### From source
 
