@@ -1,0 +1,12 @@
+language: node_js
+node_js: '8'
+cache: yarn
+
+stages:
+  - lint
+
+jobs:
+  include:
+    - stage: lint
+      install: yarn install
+      script: yarn lint
