@@ -129,7 +129,7 @@ After=alice.service
 
 [Service]
 User=root
-ExecStart=/usr/bin/node $SRC_DIR/server.js ${CONF_DIR}/alice.json
+ExecStart=/usr/bin/node $SRC_DIR/index.js ${CONF_DIR}/alice.json
 WorkingDirectory=$SRC_DIR
 Restart=on-failure
 LimitNOFILE=8192
