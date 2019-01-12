@@ -1,0 +1,87 @@
+apt-get install varnish
+
+mkdir /etc/systemd/system/varnish.service.d
+cat <<EOF > /etc/systemd/system/varnish.service.d/customexec.conf
+[Service]
+ExecStart=
+ExecStart=/usr/sbin/varnishd -j unix,user=vcache -F -a :8080 -T localhost:6082 -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,512m -t 120s
+EOF
+
+mv /etc/varnish/default.vcl /etc/varnish/default/vcl.bak
+cat <<EOF > /etc/varnish/default.vcl
+#
+# This is an example VCL file for Varnish.
+#
+# It does not do anything by default, delegating control to the
+# builtin VCL. The builtin VCL is called when there is no explicit
+# return statement.
+#
+# See the VCL chapters in the Users Guide at https://www.varnish-cache.org/docs/
+# and https://www.varnish-cache.org/trac/wiki/VCLExamples for more examples.
+
+# Marker to tell the VCL compiler that this VCL has been adapted to the
+# new 4.0 format.
+vcl 4.0;
+import std;
+
+# Default backend definition. Set this to point to your content server.
+backend default {
+    .host = "127.0.0.1";
+    .port = "80";
+}
+
+sub vcl_recv {
+    # Happens before we check if we have this in cache already.
+    #
+    # Typically you clean up the request here, removing cookies you don't need,
+    # rewriting the request, etc.
+
+    # We have to normalize requests to favor caching
+
+    # remove cookies
+    unset req.http.Cookie;
+
+    # remove cache control (like "max-age=0") header
+    unset req.http.Cache-Control;
+
+    # remove conditionnal caching headers
+    unset req.http.If-None-Match;
+    unset req.http.If-Modified-Since;
+}
+
+sub vcl_backend_response {
+    # Happens after we have read the response headers from the backend.
+    #
+    # Here you clean the response headers, removing silly Set-Cookie headers
+    # and other mistakes your backend does.
+
+    # Here we force some caching
+
+    # Before that we will perform some sanity checks and prevent caching 
+    # of webpages that are supposed to be private
+    # TODO
+
+
+
+    
+    # AntiDDOS : even if the server said *explicitely* that the content is not supposed to be cachable we cache it for Xm
+    if (beresp.ttl <= 0s) {
+       set beresp.ttl = 120s ; # better to be consistent with -t option
+    }
+
+    # Backup : we keep the content in grace for 1 week, and return it in case the original server is down
+    set beresp.grace = 1w;
+    #set beresp.keep = 0;
+
+}
+
+sub vcl_deliver {
+    # Happens when we have all the pieces we need, and are about to send the
+    # response to the client.
+    #
+    # You can do accounting or modifying the final object here.
+}
+EOF
+
+/etc/init.d/varnish restart
+# you can benchmark using apache bench
